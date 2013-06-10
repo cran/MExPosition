@@ -1,5 +1,4 @@
-print.mpDISTATIS <-
-function (x,...) {
+print.mpDISTATIS <- function (x,...) {
 
   res.mpDISTATIS <- x
   if (!inherits(res.mpDISTATIS, "mpDISTATIS")) stop ("no convenient data")

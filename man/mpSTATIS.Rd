@@ -2,15 +2,20 @@
 \alias{mpSTATIS}
 \title{mpSTATIS: STATIS via MExPosition}
 \description{All STATIS steps are combined in this function. It enables preprocessing, processing, optimization and supplementary projections which is computed using the STATIS method of analysis.}
-\usage{mpSTATIS(data, table, make_table_nominal = TRUE, statis.prepro.option = 'Plain_STATIS', DESIGN = NULL, make_design_nominal = TRUE, graphs = TRUE)}
+\usage{mpSTATIS(data, column.design, make.columndesign.nominal = TRUE, 
+  row.design = NULL, make.rowdesign.nominal = FALSE, 
+  statis.prepro.option = 'Plain_STATIS', DESIGN = NULL, 
+  make.design.nominal = TRUE, graphs = TRUE)}
 \arguments{
   \item{data}{Matrix of raw data}
-  \item{table}{Table which identifies the different tables.}
-  \item{make_table_nominal}{a boolean. If TRUE (default), table is a vector that indicates groups (and will be dummy-coded). If FALSE, table is a dummy-coded matrix.}
+  \item{column.design}{Matrix which identifies the different tables.}
+  \item{make.columndesign.nominal}{a boolean. If TRUE (default), table is a vector that indicates groups (and will be dummy-coded). If FALSE, table is a dummy-coded matrix.}
+  \item{row.design}{Matrix which identifes the different groups.}
+  \item{make.rowdesign.nominal}{a boolean. If TRUE (default), table is a vector that indicates groups (and will be dummy-coded). If FALSE, table is a dummy-coded matrix.}
   \item{statis.prepro.option}{String option for the STATIS presets. The following options are available: 'Plain_STATIS', 'MFA', 'Sum_PCA', 'Plain_Multitable', 'Plain_ANISOSTATIS' and 'Customization.'}
   \item{graphs}{a boolean. If TRUE (default), graphs are displayed}
   \item{DESIGN}{a design matrix to indicate if rows belong to groups.}
-  \item{make_design_nominal}{a boolean. If TRUE (default), DESIGN is a vector that indicates groups (and will be dummy-coded). If FALSE, design is a dummy-coded matrix.}
+  \item{make.design.nominal}{a boolean. If TRUE (default), DESIGN is a vector that indicates groups (and will be dummy-coded). If FALSE, design is a dummy-coded matrix.}
 }
 \details{
  \code{mpSTATIS} performs STATIS on a set of data matrices measured on the same set of observations. \cr\cr
@@ -19,7 +24,7 @@
 }
 \value{
 Returns a large list of items which are divided into three categories 
-   \item{$Overview}{Overview of Results}
+  \item{$Overview}{Overview of Results}
   \item{$InnerProduct}{Results for the Inner Product}
   \item{$Table}{Results for the Tables}
 The results for Overview are bundled inside of $Overview. 
@@ -39,14 +44,25 @@ The results for InnerProduct are bundled inside of $InnerProduct
   \item{$InnerProduct$eigs}{Inner Product: Eigen Values}
   \item{$InnerProduct$fi}{Inner Product: Factor Scores}
   \item{$InnerProduct$t}{Inner Product: Percent Variance Explained (tau)}
-  \item{$InnerProduct$a}{Alpha Weights (alpha)}
+  \item{$InnerProduct$alphaWeights}{Alpha Weights (alpha)}
+The results for the Compromise are bundled inside of $Compromise
+  \item{$Compromise$compromise}{Compromise Matrix}
+  \item{$Compromise$compromise.eigs}{Compromise: Eigen Values}
+  \item{$Compromise$compromise.eigs.vector}{Compromise: Eigen Vector}
+  \item{$Compromise$compromise.fi}{Compromise: Factor Scores}
+  \item{$Compromise$compromise.t}{Compromise: Percent Variance Explained}
+  \item{$Compromise$compromise.ci}{Compromise: Contributions of the rows}
+  \item{$Compromise$compromise.cj}{Compromise: Contributions of the Columns}
 The results for the Tables are bundled inside of $Table.
   \item{$Table$eigs}{Table: Eigen Values}
   \item{$Table$eigs.vector}{Table: Eigen Vectors}
   \item{$Table$Q}{Table: Loadings}
   \item{$Table$fi}{Table: Factor Scores}
   \item{$Table$partial.fi}{Table: Partial Factor Scores}
-  \item{$Table$cj}{Table: Contribution}
+  \item{$Table$partial.fi.array}{Table: Array of Partial Factor Scores}
+  \item{$Table$ci}{Table: Contribution of the rows}
+  \item{$Tabl$cj}{Table: Contribution of the columns}
+  \item{$Table$t}{Table: Percent of variance explained}
 }
 \references{
 Abdi, H., Williams, L.J., Valentin, D., & Bennani-Dosse, M. (2012). STATIS and DISTATIS: Optimum multi-table principal component analysis and three way metric multidimensional scaling. \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, 4. \cr \cr
@@ -60,6 +76,7 @@ Abdi, H., & Valentin, D. (2007). STATIS. In N.J. Salkind (Ed.): \emph{Encycloped
 \examples{
 data('wines2012')
 design=c('NZ','NZ','NZ','NZ','FR','FR','FR','FR','CA','CA','CA','CA')
-demo.statis.2012 <- mpSTATIS(wines2012$data, wines2012$table, statis.prepro.option = 'Plain_STATIS', DESIGN = design, graphs = TRUE )
+demo.statis.2012 <- mpSTATIS(wines2012$data, column.design = wines2012$table, 
+statis.prepro.option = 'Plain_STATIS', DESIGN = design, graphs = TRUE )
 }
 \keyword{ multivariate }
